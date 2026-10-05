@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Mensa Vorbestellung</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #0066cc;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: 30px auto;
+            padding: 20px;
+        }
+
+        .menu {
+            background-color: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .menu h2 {
+            margin-top: 0;
+        }
+
+        .price {
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        button {
+            background-color: #0066cc;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #004c99;
+        }
+
+        #warenkorb {
+            background-color: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin-top: 25px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1>🍽️ Mensa Vorbestellung</h1>
+        <p>Bestelle dein Essen einfach vor</p>
+    </header>
+
+    <div class="container">
+
+        <h2>Heutige Menüs</h2>
+
+        <!-- Menü 1 -->
+        <div class="menu">
+            <h2>🍝 Pasta Bolognese</h2>
+
+            <p>
+                Nudeln mit Bolognesesoße und Parmesan
+            </p>
+
+            <p class="price">
+                4,50 €
+            </p>
+
+            <button onclick="hinzufuegen('Pasta Bolognese', 4.50)">
+                + In den Warenkorb
+            </button>
+        </div>
+
+        <!-- Menü 2 -->
+        <div class="menu">
+            <h2>🥗 Gemüse-Curry</h2>
+
+            <p>
+                Gemüse-Curry mit Reis und Kokosmilch
+            </p>
+
+            <p class="price">
+                3,90 €
+            </p>
+
+            <button onclick="hinzufuegen('Gemüse-Curry', 3.90)">
+                + In den Warenkorb
+            </button>
+        </div>
+
+        <!-- Menü 3 -->
+        <div class="menu">
+            <h2>🍕 Pizza Margherita</h2>
+
+            <p>
+                Pizza mit Tomatensoße und Mozzarella
+            </p>
+
+            <p class="price">
+                4,20 €
+            </p>
+
+            <button onclick="hinzufuegen('Pizza Margherita', 4.20)">
+                + In den Warenkorb
+            </button>
+        </div>
+
+        <!-- Warenkorb -->
+        <div id="warenkorb">
+
+            <h2>🛒 Dein Warenkorb</h2>
+
+            <p id="bestellung">
+                Noch keine Gerichte ausgewählt.
+            </p>
+
+            <p>
+                <strong>Gesamt: <span id="gesamt">0.00</span> €</strong>
+            </p>
+
+            <button onclick="bestellen()">
+                Bestellung abschicken
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <script>
+
+        let warenkorb = [];
+        let gesamt = 0;
+
+        function hinzufuegen(name, preis) {
+
+            warenkorb.push({
+                name: name,
+                preis: preis
+            });
+
+            gesamt += preis;
+
+            aktualisieren();
+        }
+
+
+        function aktualisieren() {
+
+            let text = "";
+
+            warenkorb.forEach(function(gericht, index) {
+
+                text +=
+                    (index + 1) +
+                    ". " +
+                    gericht.name +
+                    " – " +
+                    gericht.preis.toFixed(2) +
+                    " €<br>";
+
+            });
+
+            if (warenkorb.length === 0) {
+
+                text = "Noch keine Gerichte ausgewählt.";
+
+            }
+
+            document.getElementById("bestellung").innerHTML = text;
+
+            document.getElementById("gesamt").innerText =
+                gesamt.toFixed(2);
+        }
+
+
+        function bestellen() {
+
+            if (warenkorb.length === 0) {
+
+                alert("Bitte wähle zuerst ein Menü aus.");
+
+                return;
+            }
+
+            alert(
+                "Vielen Dank! Deine Bestellung wurde aufgenommen."
+            );
+
+        }
+
+    </script>
+
+</body>
+</html>
