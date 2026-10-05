@@ -1000,15 +1000,12 @@ async function bestellen() {
     }
 
 
-    // Namen abfragen
-
-    const name =
-        prompt(
-            "Bitte gib deinen Namen ein:"
-        );
+    const name = prompt(
+        "Bitte gib deinen Namen ein:"
+    );
 
 
-    if (!name) {
+    if (!name || name.trim() === "") {
 
         alert(
             "Bitte gib deinen Namen ein."
@@ -1018,89 +1015,87 @@ async function bestellen() {
     }
 
 
-    // URL deines Google Apps Scripts
-
+    // DEINE GOOGLE APPS SCRIPT URL
     const API_URL =
-        "https://script.google.com/macros/s/AKfycbxjzSzwgHaGr_qqoQpg8R6VM_ToqaP0SUUf3jr7ixfZ_7JdJC36Tk6O9px-mDbnYm-8Eg/exec";
+        "DEINE_APPS_SCRIPT_URL";
+
+
+    // Daten vorbereiten
+
+    const daten = {
+
+        name: name.trim(),
+
+        bestellungen: warenkorb.map(function(item) {
+
+            return {
+
+                name: item.name,
+
+                tag: item.tag,
+
+                anzahl: item.anzahl,
+
+                preis: item.preis
+
+            };
+
+        })
+
+    };
 
 
     try {
 
-        // Daten an Google Apps Script senden
+        await fetch(API_URL, {
 
-        const response =
-            await fetch(
-                API_URL,
-                {
+            method: "POST",
 
-                    method: "POST",
+            mode: "no-cors",
 
-                    body: JSON.stringify({
+            headers: {
 
-                        name: name,
+                "Content-Type":
+                    "text/plain;charset=utf-8"
 
-                        bestellungen:
-                            warenkorb
+            },
 
-                    })
+            body: JSON.stringify(daten)
 
-                }
-            );
+        });
 
 
-        const result =
-            await response.json();
+        /*
+         * Bei no-cors können wir die Antwort
+         * von Google nicht auslesen.
+         *
+         * Wenn fetch keinen Fehler wirft,
+         * wurde die Anfrage abgeschickt.
+         */
 
 
-        // Prüfen, ob Bestellung erfolgreich war
-
-        if (result.success) {
-
-
-            alert(
-
-                "✅ Bestellung erfolgreich!\n\n" +
-
-                "Bestellnummer: " +
-                result.bestellnummer
-
-            );
+        alert(
+            "✅ Bestellung wurde abgeschickt!"
+        );
 
 
-            // Warenkorb leeren
+        // Warenkorb leeren
 
-            warenkorb = [];
+        warenkorb = [];
 
-
-            warenkorbAnzeigen();
-
-
-        } else {
-
-
-            alert(
-
-                "❌ Bestellung konnte nicht gespeichert werden.\n\n" +
-
-                result.error
-
-            );
-
-        }
+        warenkorbAnzeigen();
 
 
     } catch (error) {
 
-
-        console.error(error);
+        console.error(
+            "Fehler beim Senden:",
+            error
+        );
 
 
         alert(
-
-            "❌ Es ist ein Fehler aufgetreten.\n\n" +
-
-            "Bitte überprüfe deine Internetverbindung."
-
+            "❌ Die Bestellung konnte nicht gesendet werden."
         );
 
     }
