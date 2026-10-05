@@ -988,8 +988,7 @@ function warenkorbAnzeigen() {
    ========================================== */
 
 
-function bestellen() {
-
+async function bestellen() {
 
     if (warenkorb.length === 0) {
 
@@ -998,28 +997,113 @@ function bestellen() {
         );
 
         return;
-
     }
 
 
-    let bestellText =
-        "Deine Bestellung wurde aufgenommen!\n\n";
+    // Namen abfragen
+
+    const name =
+        prompt(
+            "Bitte gib deinen Namen ein:"
+        );
 
 
-    warenkorb.forEach(function(item) {
+    if (!name) {
 
-        bestellText +=
-            item.anzahl +
-            "x " +
-            item.name +
-            " (" +
-            item.tag +
-            ")\n";
+        alert(
+            "Bitte gib deinen Namen ein."
+        );
 
-    });
+        return;
+    }
 
 
-    alert(bestellText);
+    // URL deines Google Apps Scripts
+
+    const API_URL =
+        "DEINE_APPS_SCRIPT_URL";
+
+
+    try {
+
+        // Daten an Google Apps Script senden
+
+        const response =
+            await fetch(
+                API_URL,
+                {
+
+                    method: "POST",
+
+                    body: JSON.stringify({
+
+                        name: name,
+
+                        bestellungen:
+                            warenkorb
+
+                    })
+
+                }
+            );
+
+
+        const result =
+            await response.json();
+
+
+        // Prüfen, ob Bestellung erfolgreich war
+
+        if (result.success) {
+
+
+            alert(
+
+                "✅ Bestellung erfolgreich!\n\n" +
+
+                "Bestellnummer: " +
+                result.bestellnummer
+
+            );
+
+
+            // Warenkorb leeren
+
+            warenkorb = [];
+
+
+            warenkorbAnzeigen();
+
+
+        } else {
+
+
+            alert(
+
+                "❌ Bestellung konnte nicht gespeichert werden.\n\n" +
+
+                result.error
+
+            );
+
+        }
+
+
+    } catch (error) {
+
+
+        console.error(error);
+
+
+        alert(
+
+            "❌ Es ist ein Fehler aufgetreten.\n\n" +
+
+            "Bitte überprüfe deine Internetverbindung."
+
+        );
+
+    }
 
 }
 
