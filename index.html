@@ -1015,12 +1015,9 @@ async function bestellen() {
     }
 
 
-    // DEINE GOOGLE APPS SCRIPT URL
     const API_URL =
-        "https://script.google.com/macros/s/AKfycbylW3AeCjIVS4z7zZJAKZGyXlmfVkrEq2VLZcH2iHbPdK3bF_RijOFTlEOMVjLLFup8EQ/exec";
+        "DEINE_APPS_SCRIPT_EXEC_URL";
 
-
-    // Daten vorbereiten
 
     const daten = {
 
@@ -1043,6 +1040,53 @@ async function bestellen() {
         })
 
     };
+
+
+    try {
+
+        await fetch(API_URL, {
+
+            method: "POST",
+
+            mode: "no-cors",
+
+            headers: {
+
+                "Content-Type":
+                    "text/plain;charset=utf-8"
+
+            },
+
+            body: JSON.stringify(daten)
+
+        });
+
+
+        alert(
+            "✅ Bestellung wurde abgeschickt!"
+        );
+
+
+        warenkorb = [];
+
+        warenkorbAnzeigen();
+
+
+    } catch (error) {
+
+        console.error(
+            "Fehler:",
+            error
+        );
+
+
+        alert(
+            "❌ Bestellung konnte nicht gesendet werden."
+        );
+
+    }
+
+}
 
 
     try {
