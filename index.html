@@ -1,219 +1,1041 @@
 <!DOCTYPE html>
 <html lang="de">
+
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
 
     <title>Mensa Vorbestellung</title>
 
+
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 0;
+
+        * {
+            box-sizing: border-box;
         }
 
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f8;
+            color: #222;
+        }
+
+
+        /* HEADER */
+
         header {
-            background-color: #0066cc;
+            background: #0066cc;
             color: white;
-            padding: 20px;
+            padding: 25px 20px;
             text-align: center;
         }
 
+
+        header h1 {
+            margin: 0 0 8px 0;
+        }
+
+
+        header p {
+            margin: 0;
+        }
+
+
+        /* HAUPTBEREICH */
+
         .container {
-            max-width: 700px;
+            max-width: 900px;
             margin: 30px auto;
-            padding: 20px;
+            padding: 0 20px;
         }
 
-        .menu {
-            background-color: white;
+
+        /* WOCHENANSICHT */
+
+        .week {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+
+
+        .day-button {
+            background: white;
+            border: 2px solid #ddd;
             border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 15px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        }
-
-        .menu h2 {
-            margin-top: 0;
-        }
-
-        .price {
-            font-weight: bold;
-            font-size: 18px;
-        }
-
-        button {
-            background-color: #0066cc;
-            color: white;
-            border: none;
-            padding: 12px 20px;
-            border-radius: 8px;
+            padding: 15px 5px;
             cursor: pointer;
+            transition: 0.2s;
+        }
+
+
+        .day-button:hover {
+            border-color: #0066cc;
+        }
+
+
+        .day-button.active {
+            background: #0066cc;
+            color: white;
+            border-color: #0066cc;
+        }
+
+
+        .day-name {
+            font-weight: bold;
             font-size: 16px;
         }
 
-        button:hover {
-            background-color: #004c99;
+
+        .day-date {
+            margin-top: 5px;
+            font-size: 14px;
+            opacity: 0.8;
         }
 
-        #warenkorb {
-            background-color: white;
-            padding: 20px;
-            border-radius: 12px;
-            margin-top: 25px;
+
+        /* MENÜS */
+
+        .menu-container {
+            margin-bottom: 30px;
         }
+
+
+        .menu {
+            background: white;
+            border-radius: 14px;
+            padding: 20px;
+            margin-bottom: 15px;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+
+        .menu-info {
+            flex: 1;
+        }
+
+
+        .menu h3 {
+            margin: 0 0 8px 0;
+        }
+
+
+        .menu p {
+            margin: 5px 0;
+            color: #666;
+        }
+
+
+        .price {
+            font-weight: bold;
+            color: #222 !important;
+        }
+
+
+        button {
+            font-family: inherit;
+        }
+
+
+        .add-button {
+            background: #0066cc;
+            color: white;
+
+            border: none;
+            border-radius: 8px;
+
+            padding: 11px 16px;
+
+            cursor: pointer;
+            font-size: 15px;
+        }
+
+
+        .add-button:hover {
+            background: #004c99;
+        }
+
+
+        /* WARENKORB */
+
+        #warenkorb {
+            background: white;
+            border-radius: 14px;
+            padding: 25px;
+
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+
+            margin-top: 30px;
+        }
+
+
+        #warenkorb h2 {
+            margin-top: 0;
+        }
+
+
+        .cart-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            border-bottom: 1px solid #ddd;
+
+            padding: 15px 0;
+        }
+
+
+        .cart-info {
+            flex: 1;
+        }
+
+
+        .cart-name {
+            font-weight: bold;
+        }
+
+
+        .cart-day {
+            font-size: 13px;
+            color: #777;
+            margin-top: 4px;
+        }
+
+
+        .cart-controls {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+
+        .quantity-button {
+            width: 32px;
+            height: 32px;
+
+            border: none;
+            border-radius: 6px;
+
+            background: #e9ecef;
+
+            cursor: pointer;
+
+            font-size: 18px;
+        }
+
+
+        .quantity {
+            min-width: 25px;
+            text-align: center;
+        }
+
+
+        .delete-button {
+            background: #dc3545;
+            color: white;
+
+            border: none;
+            border-radius: 6px;
+
+            padding: 8px 10px;
+
+            cursor: pointer;
+        }
+
+
+        .delete-button:hover {
+            background: #b02a37;
+        }
+
+
+        .total {
+            text-align: right;
+
+            font-size: 20px;
+            font-weight: bold;
+
+            margin-top: 20px;
+        }
+
+
+        .order-button {
+            width: 100%;
+
+            margin-top: 20px;
+
+            padding: 15px;
+
+            background: #198754;
+            color: white;
+
+            border: none;
+            border-radius: 8px;
+
+            font-size: 17px;
+
+            cursor: pointer;
+        }
+
+
+        .order-button:hover {
+            background: #146c43;
+        }
+
+
+        .empty-cart {
+            color: #777;
+            text-align: center;
+            padding: 20px 0;
+        }
+
+
+        /* MOBILE */
+
+        @media (max-width: 600px) {
+
+            .week {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+
+            .menu {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+
+
+            .add-button {
+                width: 100%;
+            }
+
+
+            .cart-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 12px;
+            }
+
+
+            .cart-controls {
+                width: 100%;
+            }
+
+        }
+
     </style>
+
 </head>
+
 
 <body>
 
-    <header>
-        <h1>🍽️ Mensa Vorbestellung</h1>
-        <p>Bestelle dein Essen einfach vor</p>
-    </header>
 
-    <div class="container">
+<header>
 
-        <h2>Heutige Menüs</h2>
+    <h1>🍽️ Mensa Vorbestellung</h1>
 
-        <!-- Menü 1 -->
-        <div class="menu">
-            <h2>🍝 Pasta Bolognese</h2>
+    <p>
+        Wähle deinen Tag und bestelle dein Essen vor
+    </p>
 
-            <p>
-                Nudeln mit Bolognesesoße und Parmesan
-            </p>
+</header>
 
-            <p class="price">
-                4,50 €
-            </p>
 
-            <button onclick="hinzufuegen('Pasta Bolognese', 4.50)">
-                + In den Warenkorb
-            </button>
-        </div>
 
-        <!-- Menü 2 -->
-        <div class="menu">
-            <h2>🥗 Gemüse-Curry</h2>
+<div class="container">
 
-            <p>
-                Gemüse-Curry mit Reis und Kokosmilch
-            </p>
 
-            <p class="price">
-                3,90 €
-            </p>
+    <!-- WOCHENTAGE -->
 
-            <button onclick="hinzufuegen('Gemüse-Curry', 3.90)">
-                + In den Warenkorb
-            </button>
-        </div>
+    <h2>📅 Diese Woche</h2>
 
-        <!-- Menü 3 -->
-        <div class="menu">
-            <h2>🍕 Pizza Margherita</h2>
+    <div class="week">
 
-            <p>
-                Pizza mit Tomatensoße und Mozzarella
-            </p>
+        <button
+            class="day-button active"
+            onclick="tagWaehlen('montag', this)">
 
-            <p class="price">
-                4,20 €
-            </p>
+            <div class="day-name">
+                Montag
+            </div>
 
-            <button onclick="hinzufuegen('Pizza Margherita', 4.20)">
-                + In den Warenkorb
-            </button>
-        </div>
+            <div class="day-date">
+                05.10.
+            </div>
 
-        <!-- Warenkorb -->
-        <div id="warenkorb">
+        </button>
 
-            <h2>🛒 Dein Warenkorb</h2>
 
-            <p id="bestellung">
-                Noch keine Gerichte ausgewählt.
-            </p>
+        <button
+            class="day-button"
+            onclick="tagWaehlen('dienstag', this)">
 
-            <p>
-                <strong>Gesamt: <span id="gesamt">0.00</span> €</strong>
-            </p>
+            <div class="day-name">
+                Dienstag
+            </div>
 
-            <button onclick="bestellen()">
-                Bestellung abschicken
-            </button>
+            <div class="day-date">
+                06.10.
+            </div>
 
-        </div>
+        </button>
+
+
+        <button
+            class="day-button"
+            onclick="tagWaehlen('mittwoch', this)">
+
+            <div class="day-name">
+                Mittwoch
+            </div>
+
+            <div class="day-date">
+                07.10.
+            </div>
+
+        </button>
+
+
+        <button
+            class="day-button"
+            onclick="tagWaehlen('donnerstag', this)">
+
+            <div class="day-name">
+                Donnerstag
+            </div>
+
+            <div class="day-date">
+                08.10.
+            </div>
+
+        </button>
+
+
+        <button
+            class="day-button"
+            onclick="tagWaehlen('freitag', this)">
+
+            <div class="day-name">
+                Freitag
+            </div>
+
+            <div class="day-date">
+                09.10.
+            </div>
+
+        </button>
 
     </div>
 
 
-    <script>
 
-        let warenkorb = [];
-        let gesamt = 0;
+    <!-- MENÜAUSWAHL -->
 
-        function hinzufuegen(name, preis) {
+    <div class="menu-container">
 
-            warenkorb.push({
-                name: name,
-                preis: preis
-            });
+        <h2 id="menu-title">
+            Menüs am Montag
+        </h2>
 
-            gesamt += preis;
 
-            aktualisieren();
+        <div id="menu-list"></div>
+
+    </div>
+
+
+
+    <!-- WARENKORB -->
+
+    <div id="warenkorb">
+
+        <h2>🛒 Dein Warenkorb</h2>
+
+        <div id="cart-list">
+
+            <div class="empty-cart">
+                Dein Warenkorb ist noch leer.
+            </div>
+
+        </div>
+
+
+        <div class="total">
+
+            Gesamt:
+            <span id="gesamt">
+                0.00
+            </span>
+            €
+
+        </div>
+
+
+        <button
+            class="order-button"
+            onclick="bestellen()">
+
+            Bestellung abschicken
+
+        </button>
+
+    </div>
+
+
+</div>
+
+
+
+<script>
+
+
+/* ==========================================
+   MENÜS DER WOCHE
+   ========================================== */
+
+
+const menues = {
+
+    montag: [
+
+        {
+            name: "Pasta Bolognese",
+            beschreibung:
+                "Nudeln mit Bolognesesoße und Parmesan",
+            preis: 4.50
+        },
+
+        {
+            name: "Gemüse-Curry",
+            beschreibung:
+                "Gemüse-Curry mit Reis und Kokosmilch",
+            preis: 3.90
+        },
+
+        {
+            name: "Pizza Margherita",
+            beschreibung:
+                "Pizza mit Tomatensoße und Mozzarella",
+            preis: 4.20
         }
 
+    ],
 
-        function aktualisieren() {
 
-            let text = "";
+    dienstag: [
 
-            warenkorb.forEach(function(gericht, index) {
+        {
+            name: "Schnitzel mit Pommes",
+            beschreibung:
+                "Schweineschnitzel mit Pommes und Salat",
+            preis: 5.20
+        },
 
-                text +=
-                    (index + 1) +
-                    ". " +
-                    gericht.name +
-                    " – " +
-                    gericht.preis.toFixed(2) +
-                    " €<br>";
+        {
+            name: "Vegetarische Lasagne",
+            beschreibung:
+                "Lasagne mit Gemüse und Tomatensoße",
+            preis: 4.30
+        },
 
-            });
-
-            if (warenkorb.length === 0) {
-
-                text = "Noch keine Gerichte ausgewählt.";
-
-            }
-
-            document.getElementById("bestellung").innerHTML = text;
-
-            document.getElementById("gesamt").innerText =
-                gesamt.toFixed(2);
+        {
+            name: "Kartoffel-Gemüse-Pfanne",
+            beschreibung:
+                "Gebratene Kartoffeln mit saisonalem Gemüse",
+            preis: 3.80
         }
 
+    ],
 
-        function bestellen() {
 
-            if (warenkorb.length === 0) {
+    mittwoch: [
 
-                alert("Bitte wähle zuerst ein Menü aus.");
+        {
+            name: "Hähnchen mit Reis",
+            beschreibung:
+                "Gebratenes Hähnchen mit Reis und Gemüse",
+            preis: 5.00
+        },
 
-                return;
-            }
-
-            alert(
-                "Vielen Dank! Deine Bestellung wurde aufgenommen."
-            );
-
+        {
+            name: "Tomaten-Risotto",
+            beschreibung:
+                "Cremiges Risotto mit Tomaten und Parmesan",
+            preis: 4.10
         }
 
-    </script>
+    ],
+
+
+    donnerstag: [
+
+        {
+            name: "Currywurst mit Pommes",
+            beschreibung:
+                "Currywurst mit hausgemachter Soße",
+            preis: 4.80
+        },
+
+        {
+            name: "Vegetarische Bowl",
+            beschreibung:
+                "Reis, Gemüse, Salat und Joghurtdressing",
+            preis: 4.40
+        }
+
+    ],
+
+
+    freitag: [
+
+        {
+            name: "Fisch mit Kartoffeln",
+            beschreibung:
+                "Fischfilet mit Kartoffeln und Gemüse",
+            preis: 5.30
+        },
+
+        {
+            name: "Spaghetti Napoli",
+            beschreibung:
+                "Spaghetti mit Tomatensoße und Parmesan",
+            preis: 3.90
+        }
+
+    ]
+
+};
+
+
+
+/* ==========================================
+   WOCHENTAGE
+   ========================================== */
+
+
+const tagNamen = {
+
+    montag: "Montag",
+    dienstag: "Dienstag",
+    mittwoch: "Mittwoch",
+    donnerstag: "Donnerstag",
+    freitag: "Freitag"
+
+};
+
+
+
+/* ==========================================
+   WARENKORB
+   ========================================== */
+
+
+let warenkorb = [];
+
+
+
+/* ==========================================
+   TAG AUSWÄHLEN
+   ========================================== */
+
+
+function tagWaehlen(tag, button) {
+
+
+    /* Aktiven Button ändern */
+
+    document
+        .querySelectorAll(".day-button")
+        .forEach(function(btn) {
+
+            btn.classList.remove("active");
+
+        });
+
+
+    button.classList.add("active");
+
+
+    /* Überschrift ändern */
+
+    document.getElementById("menu-title").innerText =
+        "Menüs am " + tagNamen[tag];
+
+
+    /* Menüs anzeigen */
+
+    menuesAnzeigen(tag);
+
+}
+
+
+
+/* ==========================================
+   MENÜS ANZEIGEN
+   ========================================== */
+
+
+function menuesAnzeigen(tag) {
+
+    const menuList =
+        document.getElementById("menu-list");
+
+
+    menuList.innerHTML = "";
+
+
+    menues[tag].forEach(function(menu) {
+
+
+        const menuElement =
+            document.createElement("div");
+
+
+        menuElement.className = "menu";
+
+
+        menuElement.innerHTML = `
+
+            <div class="menu-info">
+
+                <h3>
+                    ${menu.name}
+                </h3>
+
+                <p>
+                    ${menu.beschreibung}
+                </p>
+
+                <p class="price">
+                    ${menu.preis.toFixed(2)} €
+                </p>
+
+            </div>
+
+
+            <button
+                class="add-button"
+                onclick="hinzufuegen(
+                    '${menu.name}',
+                    ${menu.preis},
+                    '${tagNamen[tag]}'
+                )">
+
+                + In den Warenkorb
+
+            </button>
+
+        `;
+
+
+        menuList.appendChild(menuElement);
+
+    });
+
+}
+
+
+
+/* ==========================================
+   MENÜ HINZUFÜGEN
+   ========================================== */
+
+
+function hinzufuegen(name, preis, tag) {
+
+
+    /* Prüfen, ob das Gericht bereits
+       im Warenkorb vorhanden ist */
+
+    const vorhanden =
+        warenkorb.find(function(item) {
+
+            return item.name === name &&
+                   item.tag === tag;
+
+        });
+
+
+    if (vorhanden) {
+
+        vorhanden.anzahl++;
+
+    } else {
+
+        warenkorb.push({
+
+            name: name,
+            preis: preis,
+            tag: tag,
+            anzahl: 1
+
+        });
+
+    }
+
+
+    warenkorbAnzeigen();
+
+}
+
+
+
+/* ==========================================
+   EINZELNES MENÜ LÖSCHEN
+   ========================================== */
+
+
+function loeschen(index) {
+
+    warenkorb.splice(index, 1);
+
+    warenkorbAnzeigen();
+
+}
+
+
+
+/* ==========================================
+   ANZAHL ERHÖHEN
+   ========================================== */
+
+
+function erhoehen(index) {
+
+    warenkorb[index].anzahl++;
+
+    warenkorbAnzeigen();
+
+}
+
+
+
+/* ==========================================
+   ANZAHL VERRINGERN
+   ========================================== */
+
+
+function verringern(index) {
+
+    warenkorb[index].anzahl--;
+
+
+    /* Wenn Anzahl 0 erreicht,
+       wird das Gericht gelöscht */
+
+    if (warenkorb[index].anzahl <= 0) {
+
+        warenkorb.splice(index, 1);
+
+    }
+
+
+    warenkorbAnzeigen();
+
+}
+
+
+
+/* ==========================================
+   WARENKORB ANZEIGEN
+   ========================================== */
+
+
+function warenkorbAnzeigen() {
+
+
+    const cartList =
+        document.getElementById("cart-list");
+
+
+    cartList.innerHTML = "";
+
+
+    if (warenkorb.length === 0) {
+
+        cartList.innerHTML = `
+
+            <div class="empty-cart">
+
+                Dein Warenkorb ist noch leer.
+
+            </div>
+
+        `;
+
+        document.getElementById("gesamt").innerText =
+            "0.00";
+
+        return;
+
+    }
+
+
+    let gesamt = 0;
+
+
+    warenkorb.forEach(function(item, index) {
+
+
+        const einzelpreis =
+            item.preis * item.anzahl;
+
+
+        gesamt += einzelpreis;
+
+
+        const element =
+            document.createElement("div");
+
+
+        element.className = "cart-item";
+
+
+        element.innerHTML = `
+
+            <div class="cart-info">
+
+                <div class="cart-name">
+
+                    ${item.name}
+
+                </div>
+
+
+                <div class="cart-day">
+
+                    ${item.tag}
+
+                </div>
+
+
+                <div>
+
+                    ${einzelpreis.toFixed(2)} €
+
+                </div>
+
+            </div>
+
+
+            <div class="cart-controls">
+
+
+                <button
+                    class="quantity-button"
+                    onclick="verringern(${index})">
+
+                    −
+
+                </button>
+
+
+                <span class="quantity">
+
+                    ${item.anzahl}
+
+                </span>
+
+
+                <button
+                    class="quantity-button"
+                    onclick="erhoehen(${index})">
+
+                    +
+
+                </button>
+
+
+                <button
+                    class="delete-button"
+                    onclick="loeschen(${index})">
+
+                    🗑️
+
+                </button>
+
+
+            </div>
+
+        `;
+
+
+        cartList.appendChild(element);
+
+    });
+
+
+    document.getElementById("gesamt").innerText =
+        gesamt.toFixed(2);
+
+}
+
+
+
+/* ==========================================
+   BESTELLUNG
+   ========================================== */
+
+
+function bestellen() {
+
+
+    if (warenkorb.length === 0) {
+
+        alert(
+            "Bitte wähle zuerst mindestens ein Menü aus."
+        );
+
+        return;
+
+    }
+
+
+    let bestellText =
+        "Deine Bestellung wurde aufgenommen!\n\n";
+
+
+    warenkorb.forEach(function(item) {
+
+        bestellText +=
+            item.anzahl +
+            "x " +
+            item.name +
+            " (" +
+            item.tag +
+            ")\n";
+
+    });
+
+
+    alert(bestellText);
+
+}
+
+
+
+/* ==========================================
+   START
+   ========================================== */
+
+
+menuesAnzeigen("montag");
+
+
+</script>
+
 
 </body>
+
 </html>
