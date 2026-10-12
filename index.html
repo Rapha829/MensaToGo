@@ -10,119 +10,168 @@
       --green: #176b45;
       --green2: #218557;
       --bg: #f4f7f5;
-      --border: #dce5df;
+      --card: #fff;
       --text: #17221c;
       --muted: #66736b;
+      --border: #dce5df;
       --red: #b42318;
     }
 
-    * { box-sizing: border-box; }
+    * {
+      box-sizing: border-box;
+    }
 
     body {
       margin: 0;
       font-family: Arial, Helvetica, sans-serif;
       color: var(--text);
       background: var(--bg);
+      font-size: 17px;
     }
 
     header {
       background: var(--green);
-      color: white;
-      padding: 26px 18px;
+      color: #fff;
+      padding: 30px 18px;
       text-align: center;
     }
 
-    header h1 { margin: 0 0 7px; }
-    header p { margin: 0; }
+    header h1 {
+      margin: 0 0 8px;
+      font-size: clamp(1.7rem, 4vw, 2.5rem);
+    }
+
+    header p {
+      margin: 0;
+      opacity: .92;
+      font-size: 1.05rem;
+    }
 
     main {
-      width: min(1100px, 94%);
-      margin: 24px auto 50px;
+      width: min(1700px, 98%);
+      margin: 26px auto 50px;
       display: grid;
-      grid-template-columns: minmax(0, 1.5fr) minmax(280px, .8fr);
-      gap: 22px;
+      grid-template-columns: minmax(0, 2.3fr) minmax(320px, .8fr);
+      gap: 26px;
       align-items: start;
     }
 
     section {
-      background: white;
+      background: var(--card);
       border: 1px solid var(--border);
       border-radius: 16px;
-      padding: 20px;
+      padding: 24px;
       box-shadow: 0 5px 18px #102d1a0a;
     }
 
-    h2 { margin: 0 0 16px; }
+    h2 {
+      margin: 0 0 20px;
+      font-size: 1.55rem;
+    }
 
     .days {
       display: flex;
-      gap: 8px;
+      gap: 9px;
       flex-wrap: wrap;
-      margin-bottom: 18px;
+      margin-bottom: 22px;
     }
 
     .day-btn {
       border: 1px solid var(--border);
-      background: white;
-      padding: 10px 13px;
+      background: #fff;
+      padding: 12px 16px;
       border-radius: 10px;
       cursor: pointer;
-      font-weight: bold;
+      font-weight: 700;
+      font-size: 1rem;
     }
 
     .day-btn.active {
       background: var(--green);
-      color: white;
+      color: #fff;
       border-color: var(--green);
     }
 
     .menu-list {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
-      gap: 12px;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 20px;
     }
 
     .menu-card {
       border: 1px solid var(--border);
-      border-radius: 13px;
-      padding: 15px;
+      border-radius: 15px;
+      padding: 25px;
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 15px;
+      min-height: 285px;
+      background: #fff;
     }
 
-    .menu-card h3 { margin: 0; }
+    .menu-card h3 {
+      margin: 0;
+      font-size: 1.55rem;
+      line-height: 1.35;
+    }
+
     .menu-card p {
       margin: 0;
       color: var(--muted);
-      font-size: .92rem;
-      line-height: 1.4;
+      font-size: 1.1rem;
+      line-height: 1.6;
+    }
+
+    .allergens {
+      margin-top: 2px;
+      padding: 13px 14px;
+      border-radius: 10px;
+      background: #fff8e8;
+      color: #684b12;
+      font-size: 1rem;
+      line-height: 1.55;
+    }
+
+    .allergens strong {
+      color: #50390d;
     }
 
     .price-row {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 10px;
+      gap: 12px;
       margin-top: auto;
     }
 
-    .price { font-weight: bold; }
+    .price {
+      font-weight: 800;
+      font-size: 1.2rem;
+    }
 
-    button { font: inherit; }
+    button {
+      font: inherit;
+    }
 
     .primary {
       border: 0;
       background: var(--green2);
-      color: white;
+      color: #fff;
       border-radius: 9px;
-      padding: 10px 13px;
+      padding: 12px 16px;
       cursor: pointer;
-      font-weight: bold;
+      font-weight: 700;
+      font-size: 1rem;
     }
 
-    .primary:hover { filter: brightness(.94); }
-    button:disabled { opacity: .5; cursor: not-allowed; }
+    .primary:hover {
+      filter: brightness(.94);
+    }
+
+    button:disabled {
+      opacity: .5;
+      cursor: not-allowed;
+    }
 
     .cart-empty {
       color: var(--muted);
@@ -130,7 +179,7 @@
     }
 
     .cart-item {
-      padding: 13px 0;
+      padding: 14px 0;
       border-bottom: 1px solid var(--border);
     }
 
@@ -140,68 +189,81 @@
       gap: 12px;
     }
 
-    .cart-name { font-weight: bold; }
+    .cart-name {
+      font-weight: 700;
+    }
 
     .cart-meta {
       color: var(--muted);
-      font-size: .88rem;
-      margin-top: 4px;
+      font-size: .92rem;
+      margin-top: 5px;
     }
 
     .cart-controls {
       display: flex;
       align-items: center;
       gap: 8px;
-      margin-top: 10px;
+      margin-top: 11px;
     }
 
-    .qty-btn, .remove-btn {
+    .qty-btn,
+    .remove-btn {
       border: 1px solid var(--border);
-      background: white;
+      background: #fff;
       border-radius: 7px;
-      min-width: 30px;
-      height: 30px;
+      min-width: 32px;
+      height: 32px;
       cursor: pointer;
     }
 
     .remove-btn {
       margin-left: auto;
-      padding: 0 9px;
+      padding: 0 10px;
       color: var(--red);
     }
 
     .total {
       display: flex;
       justify-content: space-between;
-      font-size: 1.1rem;
-      font-weight: bold;
-      padding: 18px 0;
+      font-size: 1.2rem;
+      font-weight: 800;
+      padding: 20px 0;
     }
 
     label {
       display: block;
-      font-size: .92rem;
-      font-weight: bold;
-      margin: 8px 0 6px;
+      font-size: 1rem;
+      font-weight: 700;
+      margin: 8px 0 7px;
     }
 
     input {
       width: 100%;
       border: 1px solid var(--border);
       border-radius: 9px;
-      padding: 12px;
+      padding: 13px;
       font: inherit;
     }
 
-    .submit { width: 100%; padding: 13px; }
+    .submit {
+      width: 100%;
+      padding: 14px;
+      margin-top: 12px;
+    }
 
     .notice {
       margin-top: 12px;
-      padding: 11px 12px;
+      padding: 12px;
       border-radius: 9px;
-      line-height: 1.4;
-      font-size: .92rem;
       display: none;
+      line-height: 1.5;
+      font-size: .95rem;
+    }
+
+    .notice.info {
+      display: block;
+      background: #eef5ff;
+      color: #174ea6;
     }
 
     .notice.error {
@@ -213,25 +275,34 @@
     .notice.success {
       display: block;
       background: #eaf7ee;
-      color: var(--green);
+      color: #176b45;
     }
 
     .small {
-      font-size: .83rem;
+      font-size: .9rem;
       color: var(--muted);
-      line-height: 1.45;
+      line-height: 1.5;
     }
 
     footer {
       text-align: center;
       padding: 0 16px 30px;
       color: var(--muted);
-      font-size: .85rem;
+      font-size: .9rem;
     }
 
-    @media (max-width: 760px) {
-      main { grid-template-columns: 1fr; }
-      section { padding: 16px; }
+    @media (max-width: 850px) {
+      main {
+        grid-template-columns: 1fr;
+      }
+
+      section {
+        padding: 18px;
+      }
+
+      .menu-list {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
 </head>
@@ -245,16 +316,21 @@
   <main>
     <section>
       <h2>Speiseplan</h2>
-      <div class="days" id="days"></div>
+
+      <div class="days" id="days"
+           aria-label="Wochentag auswählen"></div>
+
       <div class="menu-list" id="menuList"></div>
-      <p class="small">
-        Die Gerichte und Preise sind Beispieldaten.
-        Du kannst sie im JavaScript anpassen.
+
+      <p class="small" style="margin-top:18px">
+        Bitte gleiche die Allergenangaben vor der Veröffentlichung
+        mit den tatsächlichen Zutaten und den Angaben der Küche ab.
       </p>
     </section>
 
     <section>
       <h2>🛒 Dein Warenkorb</h2>
+
       <div id="cartItems" aria-live="polite"></div>
 
       <div class="total">
@@ -264,6 +340,7 @@
 
       <form id="orderForm">
         <label for="customerName">Dein Name</label>
+
         <input
           id="customerName"
           name="customerName"
@@ -272,56 +349,73 @@
           required
           placeholder="Vorname und Nachname"
         >
-        <button class="primary submit" id="submitButton" type="submit">
+
+        <button
+          class="primary submit"
+          id="submitButton"
+          type="submit"
+        >
           Bestellung absenden
         </button>
       </form>
 
-      <div id="notice" class="notice" role="status" aria-live="polite"></div>
+      <div
+        id="notice"
+        class="notice"
+        role="status"
+        aria-live="polite"
+      ></div>
 
       <p class="small">
-        Guten Appetit
+        Nach dem Absenden wird die Bestellung an das verbundene
+        Google Sheet übermittelt. Bitte prüfe die Tabelle, da diese
+        einfache Verbindung keine sichere Empfangsbestätigung anzeigt.
       </p>
     </section>
   </main>
 
   <footer>
-    MensaToGo
+    Mensa-Bestellsystem · Bitte vor dem Einsatz Datenschutz,
+    Zugriffsrechte und Bestellabläufe prüfen.
   </footer>
 
-  <!-- Versteckter iframe für die Übermittlung an Google Apps Script -->
   <iframe
     name="sheetsTarget"
     id="sheetsTarget"
-    title="Bestellübermittlung"
+    title="Übermittlung"
     style="display:none"
   ></iframe>
 
   <script>
-    // HIER deine Apps-Script-Web-App-URL eintragen.
-    // Die URL endet normalerweise mit /exec.
+    // Hier deine Google-Apps-Script-Web-App-URL eintragen.
     const APPS_SCRIPT_URL =
-      "https://script.google.com/macros/s/AKfycbyd1uFsCUHXL750hvTG0QE-nRB8Dim6o5NOzWaN2EiSUQAttk7idxKtUddvArgcEK_I9Q/exec";
+      "HIER_DEINE_APPS_SCRIPT_WEB_APP_URL_EINFUEGEN";
 
-    // Beispiel-Speiseplan
+    // Speiseplan mit Gerichten, Preisen und Allergenen.
     const speiseplan = {
       Montag: [
         {
           id: "mo1",
           name: "Pasta Bolognese",
-          beschreibung: "Pasta mit Tomatensauce und Hackfleisch.",
+          beschreibung:
+            "Pasta mit herzhafter Tomatensauce und Hackfleisch.",
+          allergene: "Gluten (Weizen), Sellerie",
           preis: 4.50
         },
         {
           id: "mo2",
           name: "Gemüse-Curry",
-          beschreibung: "Cremiges Curry mit Gemüse und Reis.",
+          beschreibung:
+            "Cremiges Curry mit Gemüse und Reis.",
+          allergene: "Milch, Sellerie, Senf",
           preis: 3.90
         },
         {
           id: "mo3",
           name: "Pizza Margherita",
-          beschreibung: "Tomate, Mozzarella und Basilikum.",
+          beschreibung:
+            "Tomate, Mozzarella und Basilikum.",
+          allergene: "Gluten (Weizen), Milch",
           preis: 4.20
         }
       ],
@@ -330,19 +424,25 @@
         {
           id: "di1",
           name: "Schnitzel mit Pommes",
-          beschreibung: "Schnitzel mit Pommes frites.",
+          beschreibung:
+            "Knuspriges Schnitzel mit Pommes frites.",
+          allergene: "Gluten (Panade), Ei, Milch",
           preis: 5.20
         },
         {
           id: "di2",
           name: "Vegetarische Lasagne",
-          beschreibung: "Lasagne mit Gemüse und Tomatensauce.",
+          beschreibung:
+            "Lasagne mit Gemüse und Tomatensauce.",
+          allergene: "Gluten (Weizen), Milch, Sellerie",
           preis: 4.30
         },
         {
           id: "di3",
           name: "Kartoffel-Gemüse-Pfanne",
-          beschreibung: "Kartoffeln mit saisonalem Gemüse.",
+          beschreibung:
+            "Kartoffeln mit saisonalem Gemüse.",
+          allergene: "Sellerie, Senf",
           preis: 3.80
         }
       ],
@@ -351,13 +451,17 @@
         {
           id: "mi1",
           name: "Hähnchen mit Reis",
-          beschreibung: "Hähnchenfilet mit Reis und Sauce.",
+          beschreibung:
+            "Hähnchenfilet mit Reis und Sauce.",
+          allergene: "Gluten, Milch, Sellerie, Senf",
           preis: 5.00
         },
         {
           id: "mi2",
           name: "Tomaten-Risotto",
-          beschreibung: "Cremiges Risotto mit Tomaten und Kräutern.",
+          beschreibung:
+            "Cremiges Risotto mit Tomaten und Kräutern.",
+          allergene: "Milch, Sellerie",
           preis: 4.10
         }
       ],
@@ -366,13 +470,17 @@
         {
           id: "do1",
           name: "Currywurst mit Pommes",
-          beschreibung: "Currywurst mit würziger Sauce.",
+          beschreibung:
+            "Currywurst mit würziger Sauce und Pommes.",
+          allergene: "Senf, Sellerie, Gluten",
           preis: 4.80
         },
         {
           id: "do2",
           name: "Vegetarische Bowl",
-          beschreibung: "Bunte Bowl mit Gemüse und Dressing.",
+          beschreibung:
+            "Bunte Bowl mit Getreide, Gemüse und Dressing.",
+          allergene: "Gluten, Sesam, Senf, Milch",
           preis: 4.40
         }
       ],
@@ -381,13 +489,17 @@
         {
           id: "fr1",
           name: "Fisch mit Kartoffeln",
-          beschreibung: "Fischfilet mit Kartoffelbeilage.",
+          beschreibung:
+            "Fischfilet mit Kartoffelbeilage.",
+          allergene: "Fisch, Gluten",
           preis: 5.30
         },
         {
           id: "fr2",
           name: "Spaghetti Napoli",
-          beschreibung: "Spaghetti mit Tomatensauce.",
+          beschreibung:
+            "Spaghetti mit klassischer Tomatensauce.",
+          allergene: "Gluten (Weizen), Sellerie",
           preis: 3.90
         }
       ]
@@ -417,9 +529,11 @@
 
       Object.keys(speiseplan).forEach(tag => {
         const button = document.createElement("button");
+
         button.type = "button";
         button.className =
           "day-btn" + (tag === aktiverTag ? " active" : "");
+
         button.textContent = tag;
         button.setAttribute(
           "aria-pressed",
@@ -446,7 +560,14 @@
 
         card.innerHTML = `
           <h3>${safe(menu.name)}</h3>
+
           <p>${safe(menu.beschreibung)}</p>
+
+          <div class="allergens">
+            <strong>Allergene:</strong>
+            ${safe(menu.allergene)}
+          </div>
+
           <div class="price-row">
             <span class="price">${euro(menu.preis)}</span>
             <button type="button" class="primary">
@@ -455,26 +576,27 @@
           </div>
         `;
 
-        card.querySelector("button").addEventListener("click", () => {
-          hinzufuegen(menu, aktiverTag);
-        });
+        card.querySelector("button").addEventListener(
+          "click",
+          () => hinzufuegen(menu, aktiverTag)
+        );
 
         container.appendChild(card);
       });
     }
 
     function hinzufuegen(menu, tag) {
-      const vorhanden = warenkorb.find(item =>
-        item.id === menu.id && item.tag === tag
+      const vorhandenes = warenkorb.find(
+        item => item.id === menu.id && item.tag === tag
       );
 
-      if (vorhanden) {
-        vorhanden.anzahl++;
+      if (vorhandenes) {
+        vorhandenes.anzahl++;
       } else {
         warenkorb.push({
           id: menu.id,
           name: menu.name,
-          tag: tag,
+          tag,
           preis: menu.preis,
           anzahl: 1
         });
@@ -485,8 +607,8 @@
     }
 
     function mengeAendern(id, tag, delta) {
-      const item = warenkorb.find(item =>
-        item.id === id && item.tag === tag
+      const item = warenkorb.find(
+        item => item.id === id && item.tag === tag
       );
 
       if (!item) return;
@@ -494,16 +616,17 @@
       item.anzahl += delta;
 
       if (item.anzahl <= 0) {
-        entfernen(id, tag);
-        return;
+        warenkorb = warenkorb.filter(
+          x => !(x.id === id && x.tag === tag)
+        );
       }
 
       warenkorbAnzeigen();
     }
 
     function entfernen(id, tag) {
-      warenkorb = warenkorb.filter(item =>
-        !(item.id === id && item.tag === tag)
+      warenkorb = warenkorb.filter(
+        item => !(item.id === id && item.tag === tag)
       );
 
       warenkorbAnzeigen();
@@ -511,12 +634,14 @@
 
     function warenkorbAnzeigen() {
       const container = document.getElementById("cartItems");
+
       const total = warenkorb.reduce(
         (sum, item) => sum + item.preis * item.anzahl,
         0
       );
 
       document.getElementById("total").textContent = euro(total);
+
       document.getElementById("submitButton").disabled =
         warenkorb.length === 0;
 
@@ -540,32 +665,45 @@
                 ${safe(item.tag)} · ${euro(item.preis)} pro Portion
               </div>
             </div>
+
             <strong>${euro(item.preis * item.anzahl)}</strong>
           </div>
 
           <div class="cart-controls">
-            <button type="button" class="qty-btn minus"
-              aria-label="Eine Portion entfernen">−</button>
+            <button
+              type="button"
+              class="qty-btn minus"
+              aria-label="Eine Portion entfernen"
+            >−</button>
+
             <span>${item.anzahl}</span>
-            <button type="button" class="qty-btn plus"
-              aria-label="Eine Portion hinzufügen">+</button>
+
+            <button
+              type="button"
+              class="qty-btn plus"
+              aria-label="Eine Portion hinzufügen"
+            >+</button>
+
             <button type="button" class="remove-btn">
               Entfernen
             </button>
           </div>
         `;
 
-        row.querySelector(".minus").addEventListener("click", () => {
-          mengeAendern(item.id, item.tag, -1);
-        });
+        row.querySelector(".minus").addEventListener(
+          "click",
+          () => mengeAendern(item.id, item.tag, -1)
+        );
 
-        row.querySelector(".plus").addEventListener("click", () => {
-          mengeAendern(item.id, item.tag, 1);
-        });
+        row.querySelector(".plus").addEventListener(
+          "click",
+          () => mengeAendern(item.id, item.tag, 1)
+        );
 
-        row.querySelector(".remove-btn").addEventListener("click", () => {
-          entfernen(item.id, item.tag);
-        });
+        row.querySelector(".remove-btn").addEventListener(
+          "click",
+          () => entfernen(item.id, item.tag)
+        );
 
         container.appendChild(row);
       });
@@ -573,6 +711,7 @@
 
     function meldung(text, typ) {
       const box = document.getElementById("notice");
+
       box.textContent = text;
       box.className = "notice" + (typ ? " " + typ : "");
       box.style.display = text ? "block" : "none";
@@ -584,13 +723,19 @@
         event.preventDefault();
 
         if (warenkorb.length === 0) {
-          meldung("Bitte wähle zuerst ein Menü aus.", "error");
+          meldung(
+            "Bitte wähle zuerst mindestens ein Menü aus.",
+            "error"
+          );
           return;
         }
 
-        if (!APPS_SCRIPT_URL.startsWith("https://script.google.com/")) {
+        if (
+          !APPS_SCRIPT_URL.startsWith("https://script.google.com/")
+          || APPS_SCRIPT_URL.includes("HIER_DEINE")
+        ) {
           meldung(
-            "Bitte trage zuerst deine Apps-Script-Web-App-URL ein.",
+            "Bitte trage im HTML zuerst deine Apps-Script-Web-App-URL ein.",
             "error"
           );
           return;
@@ -605,14 +750,15 @@
           return;
         }
 
-        // Klassischer Formularversand umgeht typische fetch/CORS-Probleme.
+        // Bestellung an Google Apps Script übermitteln.
         const form = document.createElement("form");
+
         form.method = "POST";
         form.action = APPS_SCRIPT_URL;
         form.target = "sheetsTarget";
         form.style.display = "none";
 
-        const daten = {
+        const fields = {
           name: name,
           bestellungen: JSON.stringify(
             warenkorb.map(item => ({
@@ -624,11 +770,13 @@
           )
         };
 
-        Object.entries(daten).forEach(([key, value]) => {
+        Object.entries(fields).forEach(([key, value]) => {
           const input = document.createElement("input");
+
           input.type = "hidden";
           input.name = key;
           input.value = value;
+
           form.appendChild(input);
         });
 
@@ -636,14 +784,14 @@
         form.submit();
         form.remove();
 
-        // Dies bestätigt die Übermittlung, nicht garantiert das Speichern.
         meldung(
-          "Bestellung wurde erfolgreich übermittelt. Vielen Dank!",
+          "Bestellung wurde übermittelt. Bitte prüfe die Google-Tabelle, da diese einfache Verbindung keine sichere Empfangsbestätigung anzeigt.",
           "success"
         );
 
         warenkorb = [];
         warenkorbAnzeigen();
+
         document.getElementById("customerName").value = "";
       }
     );
