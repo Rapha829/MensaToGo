@@ -1,1164 +1,657 @@
+
 <!DOCTYPE html>
 <html lang="de">
-
 <head>
-
-    <meta charset="UTF-8">
-
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
-
-    <title>Mensa Vorbestellung</title>
-
-
-    <style>
-
-        * {
-            box-sizing: border-box;
-        }
-
-
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background-color: #f4f6f8;
-            color: #222;
-        }
-
-
-        /* HEADER */
-
-        header {
-            background: #0066cc;
-            color: white;
-            padding: 25px 20px;
-            text-align: center;
-        }
-
-
-        header h1 {
-            margin: 0 0 8px 0;
-        }
-
-
-        header p {
-            margin: 0;
-        }
-
-
-        /* HAUPTBEREICH */
-
-        .container {
-            max-width: 900px;
-            margin: 30px auto;
-            padding: 0 20px;
-        }
-
-
-        /* WOCHENANSICHT */
-
-        .week {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 10px;
-            margin-bottom: 30px;
-        }
-
-
-        .day-button {
-            background: white;
-            border: 2px solid #ddd;
-            border-radius: 12px;
-            padding: 15px 5px;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-
-
-        .day-button:hover {
-            border-color: #0066cc;
-        }
-
-
-        .day-button.active {
-            background: #0066cc;
-            color: white;
-            border-color: #0066cc;
-        }
-
-
-        .day-name {
-            font-weight: bold;
-            font-size: 16px;
-        }
-
-
-        .day-date {
-            margin-top: 5px;
-            font-size: 14px;
-            opacity: 0.8;
-        }
-
-
-        /* MENÜS */
-
-        .menu-container {
-            margin-bottom: 30px;
-        }
-
-
-        .menu {
-            background: white;
-            border-radius: 14px;
-            padding: 20px;
-            margin-bottom: 15px;
-
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-        }
-
-
-        .menu-info {
-            flex: 1;
-        }
-
-
-        .menu h3 {
-            margin: 0 0 8px 0;
-        }
-
-
-        .menu p {
-            margin: 5px 0;
-            color: #666;
-        }
-
-
-        .price {
-            font-weight: bold;
-            color: #222 !important;
-        }
-
-
-        button {
-            font-family: inherit;
-        }
-
-
-        .add-button {
-            background: #0066cc;
-            color: white;
-
-            border: none;
-            border-radius: 8px;
-
-            padding: 11px 16px;
-
-            cursor: pointer;
-            font-size: 15px;
-        }
-
-
-        .add-button:hover {
-            background: #004c99;
-        }
-
-
-        /* WARENKORB */
-
-        #warenkorb {
-            background: white;
-            border-radius: 14px;
-            padding: 25px;
-
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-
-            margin-top: 30px;
-        }
-
-
-        #warenkorb h2 {
-            margin-top: 0;
-        }
-
-
-        .cart-item {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-
-            border-bottom: 1px solid #ddd;
-
-            padding: 15px 0;
-        }
-
-
-        .cart-info {
-            flex: 1;
-        }
-
-
-        .cart-name {
-            font-weight: bold;
-        }
-
-
-        .cart-day {
-            font-size: 13px;
-            color: #777;
-            margin-top: 4px;
-        }
-
-
-        .cart-controls {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-
-        .quantity-button {
-            width: 32px;
-            height: 32px;
-
-            border: none;
-            border-radius: 6px;
-
-            background: #e9ecef;
-
-            cursor: pointer;
-
-            font-size: 18px;
-        }
-
-
-        .quantity {
-            min-width: 25px;
-            text-align: center;
-        }
-
-
-        .delete-button {
-            background: #dc3545;
-            color: white;
-
-            border: none;
-            border-radius: 6px;
-
-            padding: 8px 10px;
-
-            cursor: pointer;
-        }
-
-
-        .delete-button:hover {
-            background: #b02a37;
-        }
-
-
-        .total {
-            text-align: right;
-
-            font-size: 20px;
-            font-weight: bold;
-
-            margin-top: 20px;
-        }
-
-
-        .order-button {
-            width: 100%;
-
-            margin-top: 20px;
-
-            padding: 15px;
-
-            background: #198754;
-            color: white;
-
-            border: none;
-            border-radius: 8px;
-
-            font-size: 17px;
-
-            cursor: pointer;
-        }
-
-
-        .order-button:hover {
-            background: #146c43;
-        }
-
-
-        .empty-cart {
-            color: #777;
-            text-align: center;
-            padding: 20px 0;
-        }
-
-
-        /* MOBILE */
-
-        @media (max-width: 600px) {
-
-            .week {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-
-            .menu {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 15px;
-            }
-
-
-            .add-button {
-                width: 100%;
-            }
-
-
-            .cart-item {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 12px;
-            }
-
-
-            .cart-controls {
-                width: 100%;
-            }
-
-        }
-
-    </style>
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mensa – Essen vorbestellen</title>
+  <style>
+    :root {
+      --green: #176b45;
+      --green2: #218557;
+      --bg: #f4f7f5;
+      --border: #dce5df;
+      --text: #17221c;
+      --muted: #66736b;
+      --red: #b42318;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      color: var(--text);
+      background: var(--bg);
+    }
+
+    header {
+      background: var(--green);
+      color: white;
+      padding: 26px 18px;
+      text-align: center;
+    }
+
+    header h1 { margin: 0 0 7px; }
+    header p { margin: 0; }
+
+    main {
+      width: min(1100px, 94%);
+      margin: 24px auto 50px;
+      display: grid;
+      grid-template-columns: minmax(0, 1.5fr) minmax(280px, .8fr);
+      gap: 22px;
+      align-items: start;
+    }
+
+    section {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 20px;
+      box-shadow: 0 5px 18px #102d1a0a;
+    }
+
+    h2 { margin: 0 0 16px; }
+
+    .days {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 18px;
+    }
+
+    .day-btn {
+      border: 1px solid var(--border);
+      background: white;
+      padding: 10px 13px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .day-btn.active {
+      background: var(--green);
+      color: white;
+      border-color: var(--green);
+    }
+
+    .menu-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 12px;
+    }
+
+    .menu-card {
+      border: 1px solid var(--border);
+      border-radius: 13px;
+      padding: 15px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .menu-card h3 { margin: 0; }
+    .menu-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: .92rem;
+      line-height: 1.4;
+    }
+
+    .price-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-top: auto;
+    }
+
+    .price { font-weight: bold; }
+
+    button { font: inherit; }
+
+    .primary {
+      border: 0;
+      background: var(--green2);
+      color: white;
+      border-radius: 9px;
+      padding: 10px 13px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .primary:hover { filter: brightness(.94); }
+    button:disabled { opacity: .5; cursor: not-allowed; }
+
+    .cart-empty {
+      color: var(--muted);
+      padding: 12px 0;
+    }
+
+    .cart-item {
+      padding: 13px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .cart-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .cart-name { font-weight: bold; }
+
+    .cart-meta {
+      color: var(--muted);
+      font-size: .88rem;
+      margin-top: 4px;
+    }
+
+    .cart-controls {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .qty-btn, .remove-btn {
+      border: 1px solid var(--border);
+      background: white;
+      border-radius: 7px;
+      min-width: 30px;
+      height: 30px;
+      cursor: pointer;
+    }
+
+    .remove-btn {
+      margin-left: auto;
+      padding: 0 9px;
+      color: var(--red);
+    }
+
+    .total {
+      display: flex;
+      justify-content: space-between;
+      font-size: 1.1rem;
+      font-weight: bold;
+      padding: 18px 0;
+    }
+
+    label {
+      display: block;
+      font-size: .92rem;
+      font-weight: bold;
+      margin: 8px 0 6px;
+    }
+
+    input {
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      padding: 12px;
+      font: inherit;
+    }
+
+    .submit { width: 100%; padding: 13px; }
+
+    .notice {
+      margin-top: 12px;
+      padding: 11px 12px;
+      border-radius: 9px;
+      line-height: 1.4;
+      font-size: .92rem;
+      display: none;
+    }
+
+    .notice.error {
+      display: block;
+      background: #fff0ef;
+      color: var(--red);
+    }
+
+    .notice.success {
+      display: block;
+      background: #eaf7ee;
+      color: var(--green);
+    }
+
+    .small {
+      font-size: .83rem;
+      color: var(--muted);
+      line-height: 1.45;
+    }
+
+    footer {
+      text-align: center;
+      padding: 0 16px 30px;
+      color: var(--muted);
+      font-size: .85rem;
+    }
+
+    @media (max-width: 760px) {
+      main { grid-template-columns: 1fr; }
+      section { padding: 16px; }
+    }
+  </style>
 </head>
 
-
 <body>
+  <header>
+    <h1>🍽️ Mensa – Essen vorbestellen</h1>
+    <p>Wähle deinen Tag und stelle deine Bestellung zusammen.</p>
+  </header>
 
+  <main>
+    <section>
+      <h2>Speiseplan</h2>
+      <div class="days" id="days"></div>
+      <div class="menu-list" id="menuList"></div>
+      <p class="small">
+        Die Gerichte und Preise sind Beispieldaten.
+        Du kannst sie im JavaScript anpassen.
+      </p>
+    </section>
 
-<header>
+    <section>
+      <h2>🛒 Dein Warenkorb</h2>
+      <div id="cartItems" aria-live="polite"></div>
 
-    <h1>🍽️ Mensa Vorbestellung</h1>
+      <div class="total">
+        <span>Gesamt</span>
+        <span id="total">0,00 €</span>
+      </div>
 
-    <p>
-        Wähle deinen Tag und bestelle dein Essen vor
-    </p>
-
-</header>
-
-
-
-<div class="container">
-
-
-    <!-- WOCHENTAGE -->
-
-    <h2>📅 Diese Woche</h2>
-
-    <div class="week">
-
-        <button
-            class="day-button active"
-            onclick="tagWaehlen('montag', this)">
-
-            <div class="day-name">
-                Montag
-            </div>
-
-            <div class="day-date">
-                05.10.
-            </div>
-
+      <form id="orderForm">
+        <label for="customerName">Dein Name</label>
+        <input
+          id="customerName"
+          name="customerName"
+          autocomplete="name"
+          maxlength="100"
+          required
+          placeholder="Vorname und Nachname"
+        >
+        <button class="primary submit" id="submitButton" type="submit">
+          Bestellung absenden
         </button>
+      </form>
 
+      <div id="notice" class="notice" role="status" aria-live="polite"></div>
 
-        <button
-            class="day-button"
-            onclick="tagWaehlen('dienstag', this)">
+      <p class="small">
+        Prüfe nach dem Testen immer, ob die Bestellung tatsächlich
+        in Google Sheets gespeichert wurde.
+      </p>
+    </section>
+  </main>
 
-            <div class="day-name">
-                Dienstag
-            </div>
+  <footer>
+    Mensa-Bestellsystem · Beispieldaten
+  </footer>
 
-            <div class="day-date">
-                06.10.
-            </div>
+  <!-- Versteckter iframe für die Übermittlung an Google Apps Script -->
+  <iframe
+    name="sheetsTarget"
+    id="sheetsTarget"
+    title="Bestellübermittlung"
+    style="display:none"
+  ></iframe>
 
-        </button>
+  <script>
+    // HIER deine Apps-Script-Web-App-URL eintragen.
+    // Die URL endet normalerweise mit /exec.
+    const APPS_SCRIPT_URL =
+      "HIER_DEINE_GOOGLE_APPS_SCRIPT_URL_EINFUEGEN";
 
-
-        <button
-            class="day-button"
-            onclick="tagWaehlen('mittwoch', this)">
-
-            <div class="day-name">
-                Mittwoch
-            </div>
-
-            <div class="day-date">
-                07.10.
-            </div>
-
-        </button>
-
-
-        <button
-            class="day-button"
-            onclick="tagWaehlen('donnerstag', this)">
-
-            <div class="day-name">
-                Donnerstag
-            </div>
-
-            <div class="day-date">
-                08.10.
-            </div>
-
-        </button>
-
-
-        <button
-            class="day-button"
-            onclick="tagWaehlen('freitag', this)">
-
-            <div class="day-name">
-                Freitag
-            </div>
-
-            <div class="day-date">
-                09.10.
-            </div>
-
-        </button>
-
-    </div>
-
-
-
-    <!-- MENÜAUSWAHL -->
-
-    <div class="menu-container">
-
-        <h2 id="menu-title">
-            Menüs am Montag
-        </h2>
-
-
-        <div id="menu-list"></div>
-
-    </div>
-
-
-
-    <!-- WARENKORB -->
-
-    <div id="warenkorb">
-
-        <h2>🛒 Dein Warenkorb</h2>
-
-        <div id="cart-list">
-
-            <div class="empty-cart">
-                Dein Warenkorb ist noch leer.
-            </div>
-
-        </div>
-
-
-        <div class="total">
-
-            Gesamt:
-            <span id="gesamt">
-                0.00
-            </span>
-            €
-
-        </div>
-
-
-        <button
-            class="order-button"
-            onclick="bestellen()">
-
-            Bestellung abschicken
-
-        </button>
-
-    </div>
-
-
-</div>
-
-
-
-<script>
-
-
-/* ==========================================
-   MENÜS DER WOCHE
-   ========================================== */
-
-
-const menues = {
-
-    montag: [
-
+    // Beispiel-Speiseplan
+    const speiseplan = {
+      Montag: [
         {
-            name: "Pasta Bolognese",
-            beschreibung:
-                "Nudeln mit Bolognesesoße und Parmesan",
-            preis: 4.50
+          id: "mo1",
+          name: "Pasta Bolognese",
+          beschreibung: "Pasta mit Tomatensauce und Hackfleisch.",
+          preis: 4.50
         },
-
         {
-            name: "Gemüse-Curry",
-            beschreibung:
-                "Gemüse-Curry mit Reis und Kokosmilch",
-            preis: 3.90
+          id: "mo2",
+          name: "Gemüse-Curry",
+          beschreibung: "Cremiges Curry mit Gemüse und Reis.",
+          preis: 3.90
         },
-
         {
-            name: "Pizza Margherita",
-            beschreibung:
-                "Pizza mit Tomatensoße und Mozzarella",
-            preis: 4.20
+          id: "mo3",
+          name: "Pizza Margherita",
+          beschreibung: "Tomate, Mozzarella und Basilikum.",
+          preis: 4.20
         }
+      ],
 
-    ],
-
-
-    dienstag: [
-
+      Dienstag: [
         {
-            name: "Schnitzel mit Pommes",
-            beschreibung:
-                "Schweineschnitzel mit Pommes und Salat",
-            preis: 5.20
+          id: "di1",
+          name: "Schnitzel mit Pommes",
+          beschreibung: "Schnitzel mit Pommes frites.",
+          preis: 5.20
         },
-
         {
-            name: "Vegetarische Lasagne",
-            beschreibung:
-                "Lasagne mit Gemüse und Tomatensoße",
-            preis: 4.30
+          id: "di2",
+          name: "Vegetarische Lasagne",
+          beschreibung: "Lasagne mit Gemüse und Tomatensauce.",
+          preis: 4.30
         },
-
         {
-            name: "Kartoffel-Gemüse-Pfanne",
-            beschreibung:
-                "Gebratene Kartoffeln mit saisonalem Gemüse",
-            preis: 3.80
+          id: "di3",
+          name: "Kartoffel-Gemüse-Pfanne",
+          beschreibung: "Kartoffeln mit saisonalem Gemüse.",
+          preis: 3.80
         }
+      ],
 
-    ],
-
-
-    mittwoch: [
-
+      Mittwoch: [
         {
-            name: "Hähnchen mit Reis",
-            beschreibung:
-                "Gebratenes Hähnchen mit Reis und Gemüse",
-            preis: 5.00
+          id: "mi1",
+          name: "Hähnchen mit Reis",
+          beschreibung: "Hähnchenfilet mit Reis und Sauce.",
+          preis: 5.00
         },
-
         {
-            name: "Tomaten-Risotto",
-            beschreibung:
-                "Cremiges Risotto mit Tomaten und Parmesan",
-            preis: 4.10
+          id: "mi2",
+          name: "Tomaten-Risotto",
+          beschreibung: "Cremiges Risotto mit Tomaten und Kräutern.",
+          preis: 4.10
         }
+      ],
 
-    ],
-
-
-    donnerstag: [
-
+      Donnerstag: [
         {
-            name: "Currywurst mit Pommes",
-            beschreibung:
-                "Currywurst mit hausgemachter Soße",
-            preis: 4.80
+          id: "do1",
+          name: "Currywurst mit Pommes",
+          beschreibung: "Currywurst mit würziger Sauce.",
+          preis: 4.80
         },
-
         {
-            name: "Vegetarische Bowl",
-            beschreibung:
-                "Reis, Gemüse, Salat und Joghurtdressing",
-            preis: 4.40
+          id: "do2",
+          name: "Vegetarische Bowl",
+          beschreibung: "Bunte Bowl mit Gemüse und Dressing.",
+          preis: 4.40
         }
+      ],
 
-    ],
-
-
-    freitag: [
-
+      Freitag: [
         {
-            name: "Fisch mit Kartoffeln",
-            beschreibung:
-                "Fischfilet mit Kartoffeln und Gemüse",
-            preis: 5.30
+          id: "fr1",
+          name: "Fisch mit Kartoffeln",
+          beschreibung: "Fischfilet mit Kartoffelbeilage.",
+          preis: 5.30
         },
-
         {
-            name: "Spaghetti Napoli",
-            beschreibung:
-                "Spaghetti mit Tomatensoße und Parmesan",
-            preis: 3.90
+          id: "fr2",
+          name: "Spaghetti Napoli",
+          beschreibung: "Spaghetti mit Tomatensauce.",
+          preis: 3.90
         }
-
-    ]
-
-};
-
-
-
-/* ==========================================
-   WOCHENTAGE
-   ========================================== */
-
-
-const tagNamen = {
-
-    montag: "Montag",
-    dienstag: "Dienstag",
-    mittwoch: "Mittwoch",
-    donnerstag: "Donnerstag",
-    freitag: "Freitag"
-
-};
-
-
-
-/* ==========================================
-   WARENKORB
-   ========================================== */
-
-
-let warenkorb = [];
-
-
-
-/* ==========================================
-   TAG AUSWÄHLEN
-   ========================================== */
-
-
-function tagWaehlen(tag, button) {
-
-
-    /* Aktiven Button ändern */
-
-    document
-        .querySelectorAll(".day-button")
-        .forEach(function(btn) {
-
-            btn.classList.remove("active");
-
-        });
-
-
-    button.classList.add("active");
-
-
-    /* Überschrift ändern */
-
-    document.getElementById("menu-title").innerText =
-        "Menüs am " + tagNamen[tag];
-
-
-    /* Menüs anzeigen */
-
-    menuesAnzeigen(tag);
-
-}
-
-
-
-/* ==========================================
-   MENÜS ANZEIGEN
-   ========================================== */
-
-
-function menuesAnzeigen(tag) {
-
-    const menuList =
-        document.getElementById("menu-list");
-
-
-    menuList.innerHTML = "";
-
-
-    menues[tag].forEach(function(menu) {
-
-
-        const menuElement =
-            document.createElement("div");
-
-
-        menuElement.className = "menu";
-
-
-        menuElement.innerHTML = `
-
-            <div class="menu-info">
-
-                <h3>
-                    ${menu.name}
-                </h3>
-
-                <p>
-                    ${menu.beschreibung}
-                </p>
-
-                <p class="price">
-                    ${menu.preis.toFixed(2)} €
-                </p>
-
-            </div>
-
-
-            <button
-                class="add-button"
-                onclick="hinzufuegen(
-                    '${menu.name}',
-                    ${menu.preis},
-                    '${tagNamen[tag]}'
-                )">
-
-                + In den Warenkorb
-
-            </button>
-
-        `;
-
-
-        menuList.appendChild(menuElement);
-
-    });
-
-}
-
-
-
-/* ==========================================
-   MENÜ HINZUFÜGEN
-   ========================================== */
-
-
-function hinzufuegen(name, preis, tag) {
-
-
-    /* Prüfen, ob das Gericht bereits
-       im Warenkorb vorhanden ist */
-
-    const vorhanden =
-        warenkorb.find(function(item) {
-
-            return item.name === name &&
-                   item.tag === tag;
-
-        });
-
-
-    if (vorhanden) {
-
-        vorhanden.anzahl++;
-
-    } else {
-
-        warenkorb.push({
-
-            name: name,
-            preis: preis,
-            tag: tag,
-            anzahl: 1
-
-        });
-
-    }
-
-
-    warenkorbAnzeigen();
-
-}
-
-
-
-/* ==========================================
-   EINZELNES MENÜ LÖSCHEN
-   ========================================== */
-
-
-function loeschen(index) {
-
-    warenkorb.splice(index, 1);
-
-    warenkorbAnzeigen();
-
-}
-
-
-
-/* ==========================================
-   ANZAHL ERHÖHEN
-   ========================================== */
-
-
-function erhoehen(index) {
-
-    warenkorb[index].anzahl++;
-
-    warenkorbAnzeigen();
-
-}
-
-
-
-/* ==========================================
-   ANZAHL VERRINGERN
-   ========================================== */
-
-
-function verringern(index) {
-
-    warenkorb[index].anzahl--;
-
-
-    /* Wenn Anzahl 0 erreicht,
-       wird das Gericht gelöscht */
-
-    if (warenkorb[index].anzahl <= 0) {
-
-        warenkorb.splice(index, 1);
-
-    }
-
-
-    warenkorbAnzeigen();
-
-}
-
-
-
-/* ==========================================
-   WARENKORB ANZEIGEN
-   ========================================== */
-
-
-function warenkorbAnzeigen() {
-
-
-    const cartList =
-        document.getElementById("cart-list");
-
-
-    cartList.innerHTML = "";
-
-
-    if (warenkorb.length === 0) {
-
-        cartList.innerHTML = `
-
-            <div class="empty-cart">
-
-                Dein Warenkorb ist noch leer.
-
-            </div>
-
-        `;
-
-        document.getElementById("gesamt").innerText =
-            "0.00";
-
-        return;
-
-    }
-
-
-    let gesamt = 0;
-
-
-    warenkorb.forEach(function(item, index) {
-
-
-        const einzelpreis =
-            item.preis * item.anzahl;
-
-
-        gesamt += einzelpreis;
-
-
-        const element =
-            document.createElement("div");
-
-
-        element.className = "cart-item";
-
-
-        element.innerHTML = `
-
-            <div class="cart-info">
-
-                <div class="cart-name">
-
-                    ${item.name}
-
-                </div>
-
-
-                <div class="cart-day">
-
-                    ${item.tag}
-
-                </div>
-
-
-                <div>
-
-                    ${einzelpreis.toFixed(2)} €
-
-                </div>
-
-            </div>
-
-
-            <div class="cart-controls">
-
-
-                <button
-                    class="quantity-button"
-                    onclick="verringern(${index})">
-
-                    −
-
-                </button>
-
-
-                <span class="quantity">
-
-                    ${item.anzahl}
-
-                </span>
-
-
-                <button
-                    class="quantity-button"
-                    onclick="erhoehen(${index})">
-
-                    +
-
-                </button>
-
-
-                <button
-                    class="delete-button"
-                    onclick="loeschen(${index})">
-
-                    🗑️
-
-                </button>
-
-
-            </div>
-
-        `;
-
-
-        cartList.appendChild(element);
-
-    });
-
-
-    document.getElementById("gesamt").innerText =
-        gesamt.toFixed(2);
-
-}
-
-
-
-/* ==========================================
-   BESTELLUNG
-   ========================================== */
-
-
-async function bestellen() {
-
-    if (warenkorb.length === 0) {
-
-        alert(
-            "Bitte wähle zuerst mindestens ein Menü aus."
-        );
-
-        return;
-    }
-
-
-    const name = prompt(
-        "Bitte gib deinen Namen ein:"
-    );
-
-
-    if (!name || name.trim() === "") {
-
-        alert(
-            "Bitte gib deinen Namen ein."
-        );
-
-        return;
-    }
-
-
-    const API_URL =
-        "DEINE_APPS_SCRIPT_EXEC_URL";
-
-
-    const daten = {
-
-        name: name.trim(),
-
-        bestellungen: warenkorb.map(function(item) {
-
-            return {
-
-                name: item.name,
-
-                tag: item.tag,
-
-                anzahl: item.anzahl,
-
-                preis: item.preis
-
-            };
-
-        })
-
+      ]
     };
 
+    let aktiverTag = "Montag";
+    let warenkorb = [];
 
-    try {
+    const euro = wert =>
+      wert.toLocaleString("de-DE", {
+        style: "currency",
+        currency: "EUR"
+      });
 
-        await fetch(API_URL, {
+    const safe = text =>
+      String(text).replace(/[&<>"']/g, zeichen => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#39;"
+      })[zeichen]);
 
-            method: "POST",
+    function tageAnzeigen() {
+      const container = document.getElementById("days");
+      container.innerHTML = "";
 
-            mode: "no-cors",
+      Object.keys(speiseplan).forEach(tag => {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className =
+          "day-btn" + (tag === aktiverTag ? " active" : "");
+        button.textContent = tag;
+        button.setAttribute(
+          "aria-pressed",
+          String(tag === aktiverTag)
+        );
 
-            headers: {
-
-                "Content-Type":
-                    "text/plain;charset=utf-8"
-
-            },
-
-            body: JSON.stringify(daten)
-
+        button.addEventListener("click", () => {
+          aktiverTag = tag;
+          tageAnzeigen();
+          menuesAnzeigen();
         });
 
-
-        alert(
-            "✅ Bestellung wurde abgeschickt!"
-        );
-
-
-        warenkorb = [];
-
-        warenkorbAnzeigen();
-
-
-    } catch (error) {
-
-        console.error(
-            "Fehler:",
-            error
-        );
-
-
-        alert(
-            "❌ Bestellung konnte nicht gesendet werden."
-        );
-
+        container.appendChild(button);
+      });
     }
 
-}
+    function menuesAnzeigen() {
+      const container = document.getElementById("menuList");
+      container.innerHTML = "";
 
+      (speiseplan[aktiverTag] || []).forEach(menu => {
+        const card = document.createElement("article");
+        card.className = "menu-card";
 
-    try {
+        card.innerHTML = `
+          <h3>${safe(menu.name)}</h3>
+          <p>${safe(menu.beschreibung)}</p>
+          <div class="price-row">
+            <span class="price">${euro(menu.preis)}</span>
+            <button type="button" class="primary">
+              Hinzufügen
+            </button>
+          </div>
+        `;
 
-        await fetch(API_URL, {
-
-            method: "POST",
-
-            mode: "no-cors",
-
-            headers: {
-
-                "Content-Type":
-                    "text/plain;charset=utf-8"
-
-            },
-
-            body: JSON.stringify(daten)
-
+        card.querySelector("button").addEventListener("click", () => {
+          hinzufuegen(menu, aktiverTag);
         });
 
-
-        /*
-         * Bei no-cors können wir die Antwort
-         * von Google nicht auslesen.
-         *
-         * Wenn fetch keinen Fehler wirft,
-         * wurde die Anfrage abgeschickt.
-         */
-
-
-        alert(
-            "✅ Bestellung wurde abgeschickt!"
-        );
-
-
-        // Warenkorb leeren
-
-        warenkorb = [];
-
-        warenkorbAnzeigen();
-
-
-    } catch (error) {
-
-        console.error(
-            "Fehler beim Senden:",
-            error
-        );
-
-
-        alert(
-            "❌ Die Bestellung konnte nicht gesendet werden."
-        );
-
+        container.appendChild(card);
+      });
     }
 
-}
+    function hinzufuegen(menu, tag) {
+      const vorhanden = warenkorb.find(item =>
+        item.id === menu.id && item.tag === tag
+      );
 
+      if (vorhanden) {
+        vorhanden.anzahl++;
+      } else {
+        warenkorb.push({
+          id: menu.id,
+          name: menu.name,
+          tag: tag,
+          preis: menu.preis,
+          anzahl: 1
+        });
+      }
 
+      warenkorbAnzeigen();
+      meldung("", "");
+    }
 
-/* ==========================================
-   START
-   ========================================== */
+    function mengeAendern(id, tag, delta) {
+      const item = warenkorb.find(item =>
+        item.id === id && item.tag === tag
+      );
 
+      if (!item) return;
 
-menuesAnzeigen("montag");
+      item.anzahl += delta;
 
+      if (item.anzahl <= 0) {
+        entfernen(id, tag);
+        return;
+      }
 
-</script>
+      warenkorbAnzeigen();
+    }
 
+    function entfernen(id, tag) {
+      warenkorb = warenkorb.filter(item =>
+        !(item.id === id && item.tag === tag)
+      );
 
+      warenkorbAnzeigen();
+    }
+
+    function warenkorbAnzeigen() {
+      const container = document.getElementById("cartItems");
+      const total = warenkorb.reduce(
+        (sum, item) => sum + item.preis * item.anzahl,
+        0
+      );
+
+      document.getElementById("total").textContent = euro(total);
+      document.getElementById("submitButton").disabled =
+        warenkorb.length === 0;
+
+      if (warenkorb.length === 0) {
+        container.innerHTML =
+          '<p class="cart-empty">Dein Warenkorb ist noch leer.</p>';
+        return;
+      }
+
+      container.innerHTML = "";
+
+      warenkorb.forEach(item => {
+        const row = document.createElement("div");
+        row.className = "cart-item";
+
+        row.innerHTML = `
+          <div class="cart-top">
+            <div>
+              <div class="cart-name">${safe(item.name)}</div>
+              <div class="cart-meta">
+                ${safe(item.tag)} · ${euro(item.preis)} pro Portion
+              </div>
+            </div>
+            <strong>${euro(item.preis * item.anzahl)}</strong>
+          </div>
+
+          <div class="cart-controls">
+            <button type="button" class="qty-btn minus"
+              aria-label="Eine Portion entfernen">−</button>
+            <span>${item.anzahl}</span>
+            <button type="button" class="qty-btn plus"
+              aria-label="Eine Portion hinzufügen">+</button>
+            <button type="button" class="remove-btn">
+              Entfernen
+            </button>
+          </div>
+        `;
+
+        row.querySelector(".minus").addEventListener("click", () => {
+          mengeAendern(item.id, item.tag, -1);
+        });
+
+        row.querySelector(".plus").addEventListener("click", () => {
+          mengeAendern(item.id, item.tag, 1);
+        });
+
+        row.querySelector(".remove-btn").addEventListener("click", () => {
+          entfernen(item.id, item.tag);
+        });
+
+        container.appendChild(row);
+      });
+    }
+
+    function meldung(text, typ) {
+      const box = document.getElementById("notice");
+      box.textContent = text;
+      box.className = "notice" + (typ ? " " + typ : "");
+      box.style.display = text ? "block" : "none";
+    }
+
+    document.getElementById("orderForm").addEventListener(
+      "submit",
+      function(event) {
+        event.preventDefault();
+
+        if (warenkorb.length === 0) {
+          meldung("Bitte wähle zuerst ein Menü aus.", "error");
+          return;
+        }
+
+        if (!APPS_SCRIPT_URL.startsWith("https://script.google.com/")) {
+          meldung(
+            "Bitte trage zuerst deine Apps-Script-Web-App-URL ein.",
+            "error"
+          );
+          return;
+        }
+
+        const name = document
+          .getElementById("customerName")
+          .value.trim();
+
+        if (!name) {
+          meldung("Bitte gib deinen Namen ein.", "error");
+          return;
+        }
+
+        // Klassischer Formularversand umgeht typische fetch/CORS-Probleme.
+        const form = document.createElement("form");
+        form.method = "POST";
+        form.action = APPS_SCRIPT_URL;
+        form.target = "sheetsTarget";
+        form.style.display = "none";
+
+        const daten = {
+          name: name,
+          bestellungen: JSON.stringify(
+            warenkorb.map(item => ({
+              name: item.name,
+              tag: item.tag,
+              anzahl: item.anzahl,
+              preis: item.preis
+            }))
+          )
+        };
+
+        Object.entries(daten).forEach(([key, value]) => {
+          const input = document.createElement("input");
+          input.type = "hidden";
+          input.name = key;
+          input.value = value;
+          form.appendChild(input);
+        });
+
+        document.body.appendChild(form);
+        form.submit();
+        form.remove();
+
+        // Dies bestätigt die Übermittlung, nicht garantiert das Speichern.
+        meldung(
+          "Bestellung wurde übermittelt. Prüfe beim Testen, ob sie in Google Sheets erscheint.",
+          "success"
+        );
+
+        warenkorb = [];
+        warenkorbAnzeigen();
+        document.getElementById("customerName").value = "";
+      }
+    );
+
+    tageAnzeigen();
+    menuesAnzeigen();
+    warenkorbAnzeigen();
+  </script>
 </body>
-
 </html>
